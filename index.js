@@ -1,5 +1,7 @@
 let numArr = [];
-let items = [1, 2, 3, 4, 5, 6, 7, "", 8];
+// let items = [1, 2, 3, 4, 5, 6, 7, "", 8];
+let items = [];
+
 
 const siblings = new Map();
 let emptySpace = null;
@@ -119,8 +121,7 @@ for (let i = 0; i < 8 + 1; i++) {
 // Function to Generate Random Numbers
 function generateNumbers() {
   numArr = [];
-//   items[index].classList.add("empty-item");
-  
+
   let randomNum = Math.floor(Math.random() * 8) + 1;
   while (numArr.length < 8) {
     if (!numArr.includes(randomNum)) {
@@ -140,8 +141,6 @@ function generateNumbers() {
       items[i].classList.add("empty-item");
     }
   }
-
-//   items[emptySpace].classList.remove("empty-item");
 }
 
 const btn = document.querySelector(".btn");
@@ -151,7 +150,10 @@ btn.addEventListener("click", () => {
   initiateRound();
   moves = 0;
   countMoves();
+  console.log("Timer Before: ", hours, mins, seconds, timex);
   resetTimer();
+  console.log("Timer After: ", hours, mins, seconds, timex);
+
   startTimer();
 });
 
@@ -267,24 +269,12 @@ function compareBoxes(pivot = false) {
 var hours = 0;
 var mins = 0;
 var seconds = 0;
-
-$("#stop").click(function () {
-  clearTimeout(timex);
-});
-
-$("#reset").click(function () {
-  hours = 0;
-  mins = 0;
-  seconds = 0;
-  //   $("#hours", "#mins").html("00:");
-  $("#hours").html("00");
-  $("#mins").html("00");
-  $("#seconds").html("00");
-});
+let timex = 0;
+let interval = 1000;
 
 function resetTimer() {
-  //   console.log("hours", hours);
-  //   console.log("minutes", mins);
+  clearTimeout(timex);
+  timex = 0;
   hours = 0;
   mins = 0;
   seconds = 0;
@@ -294,6 +284,10 @@ function resetTimer() {
 }
 
 function startTimer() {
+  console.log("Timex ===>", timex);
+  clearTimeout(timex);
+
+  //   timex = 0;
   timex = setTimeout(function () {
     seconds++;
     if (seconds > 59) {
@@ -318,7 +312,7 @@ function startTimer() {
     }
 
     startTimer();
-  }, 1000);
+  }, interval);
 }
 
 // ______________ Modal _________________
@@ -333,6 +327,7 @@ window.onclick = function (event) {
     moves = 0;
     countMoves();
     resetTimer();
+    console.log("----------");
     generateNumbers();
     startTimer();
   }
