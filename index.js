@@ -27,6 +27,7 @@ document.querySelector("#grid-body").addEventListener("keydown", (e) => {
           ];
         setSiblings();
         ++moves;
+        countMoves();
       }
       break;
     case "ArrowDown":
@@ -41,6 +42,7 @@ document.querySelector("#grid-body").addEventListener("keydown", (e) => {
         ];
         setSiblings();
         ++moves;
+        countMoves();
       }
       break;
 
@@ -54,6 +56,7 @@ document.querySelector("#grid-body").addEventListener("keydown", (e) => {
           [items[emptySpace].innerHTML, items[siblings.get("right")].innerHTML];
         setSiblings();
         ++moves;
+        countMoves();
       }
       break;
 
@@ -69,9 +72,19 @@ document.querySelector("#grid-body").addEventListener("keydown", (e) => {
         ];
         setSiblings();
         ++moves;
+        countMoves();
       }
       break;
   }
+  for (let i = 0; i < numArr.length; i++) {
+    items[i].innerHTML = numArr[i];
+    items[i].classList.remove("empty-item");
+    if (items[i].innerHTML === "") {
+      items[i].classList.add("empty-item");
+      emptySpace = i;
+    }
+  }
+
   if (check()) {
     clearTimeout(timex);
 
@@ -106,6 +119,8 @@ for (let i = 0; i < 8 + 1; i++) {
 // Function to Generate Random Numbers
 function generateNumbers() {
   numArr = [];
+//   items[index].classList.add("empty-item");
+  
   let randomNum = Math.floor(Math.random() * 8) + 1;
   while (numArr.length < 8) {
     if (!numArr.includes(randomNum)) {
@@ -117,14 +132,16 @@ function generateNumbers() {
 
   const random_index = Math.floor(Math.random() * 9);
   numArr.splice(random_index, 0, "");
-//   numArr = [1, 2, 3, 4, 5, 6, 7, "", 8];
+  // numArr = [1, 2, 3, 4, 5, 6, 7, "", 8];
 
   for (let i = 0; i <= 8; i++) {
     items[i].innerHTML = numArr[i];
     if (items[i].innerHTML == "") {
-      items[i].classList.add("empty-cell");
+      items[i].classList.add("empty-item");
     }
   }
+
+//   items[emptySpace].classList.remove("empty-item");
 }
 
 const btn = document.querySelector(".btn");
@@ -139,7 +156,7 @@ btn.addEventListener("click", () => {
 });
 
 function countMoves() {
-  document.querySelector(".moves").innerText = `Moves : ${moves}`;
+  document.querySelector(".moves").innerText = `Moves: ${moves}`;
 }
 
 function showModalData() {
@@ -181,6 +198,8 @@ function moveCell(index) {
         items[emptySpace].innerHTML,
         items[index].innerHTML,
       ];
+      items[index].classList.add("empty-item");
+      items[emptySpace].classList.remove("empty-item");
       ++moves;
 
       setSiblings();
@@ -264,8 +283,8 @@ $("#reset").click(function () {
 });
 
 function resetTimer() {
-//   console.log("hours", hours);
-//   console.log("minutes", mins);
+  //   console.log("hours", hours);
+  //   console.log("minutes", mins);
   hours = 0;
   mins = 0;
   seconds = 0;
