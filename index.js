@@ -139,12 +139,22 @@ function generateNumbers() {
     items[i].innerHTML = numArr[i];
     if (items[i].innerHTML == "") {
       items[i].classList.add("empty-item");
+    } else {
+        items[i].classList.remove("empty-item");
     }
   }
 }
 
 const btn = document.querySelector(".btn");
 btn.addEventListener("click", () => {
+    for (let i = 0; i < numArr.length; i++) {
+        items[i].innerHTML = numArr[i];
+        items[i].classList.remove("empty-item");
+        if (items[i].innerHTML === "") {
+          items[i].classList.add("empty-item");
+          emptySpace = i;
+        }
+      }
   generateNumbers();
   setSiblings();
   initiateRound();
