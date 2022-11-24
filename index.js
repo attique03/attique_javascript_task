@@ -2,7 +2,6 @@ let numArr = [];
 // let items = [1, 2, 3, 4, 5, 6, 7, "", 8];
 let items = [];
 
-
 const siblings = new Map();
 let emptySpace = null;
 let round = 0;
@@ -140,29 +139,29 @@ function generateNumbers() {
     if (items[i].innerHTML == "") {
       items[i].classList.add("empty-item");
     } else {
-        items[i].classList.remove("empty-item");
+      items[i].classList.remove("empty-item");
     }
   }
 }
 
 const btn = document.querySelector(".btn");
 btn.addEventListener("click", () => {
-    for (let i = 0; i < numArr.length; i++) {
-        items[i].innerHTML = numArr[i];
-        items[i].classList.remove("empty-item");
-        if (items[i].innerHTML === "") {
-          items[i].classList.add("empty-item");
-          emptySpace = i;
-        }
-      }
+  for (let i = 0; i < numArr.length; i++) {
+    items[i].innerHTML = numArr[i];
+    items[i].classList.remove("empty-item");
+    if (items[i].innerHTML === "") {
+      items[i].classList.add("empty-item");
+      emptySpace = i;
+    }
+  }
   generateNumbers();
   setSiblings();
   initiateRound();
   moves = 0;
   countMoves();
-  console.log("Timer Before: ", hours, mins, seconds, timex);
+  //   console.log("Timer Before: ", hours, mins, seconds, timex);
   resetTimer();
-  console.log("Timer After: ", hours, mins, seconds, timex);
+  //   console.log("Timer After: ", hours, mins, seconds, timex);
 
   startTimer();
 });
@@ -183,25 +182,33 @@ function setSiblings() {
     }
   }
 
-  emptySpace - 3 >= 0
-    ? siblings.set("top", emptySpace - 3)
-    : siblings.set("top", "");
+  if (emptySpace - 3 >= 0) {
+    siblings.set("top", emptySpace - 3);
+  } else {
+    siblings.set("top", "");
+  }
 
-  emptySpace + 3 <= 8
-    ? siblings.set("bottom", emptySpace + 3)
-    : siblings.set("bottom", "");
+  if (emptySpace + 3 <= 8) {
+    siblings.set("bottom", emptySpace + 3);
+  } else {
+    siblings.set("bottom", "");
+  }
 
-  emptySpace % 3 == 0
-    ? siblings.set("left", "")
-    : siblings.set("left", emptySpace - 1);
+  if (emptySpace % 3 == 0) {
+    siblings.set("left", "");
+  } else {
+    siblings.set("left", emptySpace - 1);
+  }
 
-  emptySpace % 3 == 2
-    ? siblings.set("right", "")
-    : siblings.set("right", emptySpace + 1);
+  if (emptySpace % 3 == 2) {
+    siblings.set("right", "");
+  } else {
+    siblings.set("right", emptySpace + 1);
+  }
 }
 
 function moveCell(index) {
-  console.log("Siblings: ", siblings);
+  //   console.log("Siblings: ", siblings);
   const values = [...siblings.values()];
   values.forEach((value) => {
     if (index === value) {
@@ -294,7 +301,7 @@ function resetTimer() {
 }
 
 function startTimer() {
-  console.log("Timex ===>", timex);
+  //   console.log("Timex ===>", timex);
   clearTimeout(timex);
 
   //   timex = 0;
@@ -337,8 +344,8 @@ window.onclick = function (event) {
     moves = 0;
     countMoves();
     resetTimer();
-    console.log("----------");
     generateNumbers();
+    setSiblings();
     startTimer();
   }
 };
